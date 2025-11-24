@@ -1,5 +1,8 @@
-import { NextRequest, NextResponse } from "next/server";
+import { NextRequest } from "next/server";
 import * as z from "zod";
+import { createSuccessResponse } from "@/lib/api/response";
+import { handleApiError, createErrorResponse } from "@/lib/api/error-handler";
+import { HttpStatus } from "@/lib/constants/http";
 
 const requestSchema = z.object({
   situation: z.string(),
@@ -7,10 +10,22 @@ const requestSchema = z.object({
   solution: z.string(),
 });
 
-export async function POST(rqq: NextRequest) {
+type AnswerRequest = z.infer<typeof requestSchema>;
+
+type OpenAIResponse = {
+  choices: Array<{
+    message: {
+      content: string;
+    };
+  }>;
+};
+
+export const POST = async (req: NextRequest) => {
   try {
-    const _content = await rqq.json();
-    const { situation, userInput, solution } = requestSchema.parse(_content);
+    const content: unknown = await req.json();
+    const { situation, userInput, solution } = requestSchema.parse(
+      content,
+    ) as AnswerRequest;
 
     const response = await fetch("https://api.openai.com/v1/chat/completions", {
       method: "POST",
@@ -29,7 +44,7 @@ export async function POST(rqq: NextRequest) {
                       Frage: Ist das eine Verletzung deiner Rechte?
                       User-Input: ${userInput}
                       Lösung: ${solution}
-                      Aufgabe: Vergleiche den User-Input mit der Lösung. Antwort mit "Ja" oder "Nein". 
+                      Aufgabe: Vergleiche den User-Input mit der Lösung. Antwort mit "Ja" oder "Nein".
                       Fasse die Begründung kurz und bündig zusammen.
                       Regeln:
                       1. Die Antwort sollte nicht länger als 3 Sätze sein.
@@ -37,7 +52,7 @@ export async function POST(rqq: NextRequest) {
                       3. Bei einem "Ja", erkläre kurz, warum, und sprich den User direkt mit "DU" an.
                       4. Bewerte die Übereinstimmung mit der richtigen Antwort auf einer Skala von 1 bis 10,
                        wobei 10 eine eindeutige Übereinstimmung bedeutet.
-                      5. Wenn die Antwort des Users mit der Lösung übereinstimmt, aber keine Begründung gegeben ist, 
+                      5. Wenn die Antwort des Users mit der Lösung übereinstimmt, aber keine Begründung gegeben ist,
                       vergib einen Score von 2.
                       6. Wenn die Antwort und Begründung vollständig mit der Lösung übereinstimmen, vergib einen Score
                        von 10.
@@ -56,19 +71,18 @@ export async function POST(rqq: NextRequest) {
     });
 
     if (!response.ok) {
-      console.error("Failed to fetch answer", response);
-      throw new Error("Failed to fetch answer");
+      throw new Error("Failed to fetch answer from OpenAI");
     }
-    const answer = await response.json();
-    return new NextResponse(JSON.stringify(answer.choices[0].message.content), {
-      status: 200,
-      statusText: "answer received",
-    });
+
+    const answer: OpenAIResponse = await response.json();
+    return createSuccessResponse(answer.choices[0].message.content);
   } catch (error: unknown) {
-    console.error((error as Error).message);
-    return new NextResponse("Error", {
-      status: 400,
-      statusText: "Error",
-    });
+    if (error instanceof z.ZodError) {
+      return createErrorResponse(
+        "Invalid request data",
+        HttpStatus.BAD_REQUEST,
+      );
+    }
+    return handleApiError(error, "Failed to get answer");
   }
-}
+};

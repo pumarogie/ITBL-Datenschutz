@@ -38,8 +38,8 @@ export function ProgressBar({
           );
           const style = {
             left:
-              section.progress == 1 ? undefined : section.progress * 100 + "%",
-            right: section.progress == 1 ? "0" : undefined,
+              section.progress === 1 ? undefined : section.progress * 100 + "%",
+            right: section.progress === 1 ? "0" : undefined,
           };
           const textClasses = clsx(
             "absolute text-nowrap text-center text-slate-600 text-sm transition-all duration-200",

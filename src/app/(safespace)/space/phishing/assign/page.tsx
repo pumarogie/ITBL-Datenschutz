@@ -11,7 +11,7 @@ import clsx from "clsx";
 import Robot from "@/components/robot/robot";
 import Task from "@/components/task";
 import { AchievementId } from "@/util/achievement-data";
-import { useMessages } from "@/services/notfication/message-provider";
+import { useMessages } from "@/services/notification/message-provider";
 import { getUserService } from "@/services/user/UserService";
 
 type Profile = {

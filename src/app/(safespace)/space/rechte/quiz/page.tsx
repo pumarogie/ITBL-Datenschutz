@@ -1,13 +1,13 @@
 "use client";
 
-import QuizList from "@/components/Quiz/quiz-list";
-import { QuizParams } from "@/components/Quiz/quiz";
+import QuizList from "@/components/quiz/quiz-list";
+import { QuizParams } from "@/components/quiz/quiz";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import Robot from "@/components/robot/robot";
 import Button from "@/components/button";
 import { AchievementId } from "@/util/achievement-data";
-import { useMessages } from "@/services/notfication/message-provider";
+import { useMessages } from "@/services/notification/message-provider";
 import { PersistUserService } from "@/services/user/PersistUserService";
 import { getUserService } from "@/services/user/UserService";
 

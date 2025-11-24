@@ -1,4 +1,4 @@
-import { Props } from "../Section";
+import { Props } from "../section";
 import { MobileSectionItem } from "./mobile-section-item";
 
 export function MobileSection({

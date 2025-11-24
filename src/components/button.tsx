@@ -13,28 +13,28 @@ type ButtonProps = {
   type?: "submit" | "button" | undefined;
 } & PropsWithChildren;
 
-export default function Button({
+export const Button = ({
   children,
   onClick,
   className,
   style,
   disabled,
   type,
-}: ButtonProps) {
+}: ButtonProps) => {
   const buttonBase =
     "inline-flex justify-center items-center align-center px-6 py-3 font-medium rounded-2xl transition-colors";
   let buttonStyle = "bg-orange-500 text-white";
   let buttonHoverStyle = "hover:bg-orange-600";
-  if (style == "green") {
+  if (style === "green") {
     buttonStyle = "bg-lime-500 text-white";
     buttonHoverStyle = "hover:bg-lime-600";
-  } else if (style == "red") {
+  } else if (style === "red") {
     buttonStyle = "bg-red-500 text-white";
     buttonHoverStyle = "hover:bg-red-600";
-  } else if (style == "secondary") {
+  } else if (style === "secondary") {
     buttonStyle = "text-[#004F86] bg-transparent border-2 border-sky-100";
     buttonHoverStyle = "hover:bg-sky-100";
-  } else if (style == "neutral") {
+  } else if (style === "neutral") {
     buttonStyle = "bg-gray-500 text-white";
     buttonHoverStyle = "hover:bg-gray-600";
   }
@@ -57,4 +57,6 @@ export default function Button({
       {children}
     </button>
   );
-}
+};
+
+export default Button;

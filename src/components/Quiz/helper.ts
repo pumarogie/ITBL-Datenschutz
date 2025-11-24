@@ -1,5 +1,5 @@
 import { TCanvasConfettiAnimationOptions } from "react-canvas-confetti/src/types";
-import { QuizParams } from "@/components/Quiz/quiz";
+import { QuizParams } from "@/components/quiz/quiz";
 import { AchievementId } from "@/util/achievement-data";
 import React from "react";
 
@@ -68,11 +68,11 @@ export function onSelect(
 ) {
   setQuizzesState(
     quizzesState.map((state, index) => {
-      if (quizIndex == index) {
+      if (quizIndex === index) {
         return {
           quiz: state.quiz,
           selection: selection,
-          isSolved: selection == state.quiz.correctAnswer,
+          isSolved: selection === state.quiz.correctAnswer,
           isDone: isDone,
         };
       } else {

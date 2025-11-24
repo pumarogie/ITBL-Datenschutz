@@ -1,13 +1,14 @@
 import { AchievementId } from "@/util/achievement-data";
-import { useMessages } from "@/services/notfication/message-provider";
+import { useMessages } from "@/services/notification/message-provider";
 import { getUserService } from "@/services/user/UserService";
+import { ApiEndpoints } from "@/lib/constants/endpoints";
 
-export default async function getFeedback(
+export const getFeedback = async (
   situation: string,
   userInput: string,
   solution: string,
-): Promise<string> {
-  const response = await fetch("/api/get-answer", {
+): Promise<string> => {
+  const response = await fetch(ApiEndpoints.ANSWERS, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -18,7 +19,9 @@ export default async function getFeedback(
     throw new Error("Failed to fetch answer");
   }
   return await response.json();
-}
+};
+
+export default getFeedback;
 
 export function extractScoreAndReason(str: string) {
   const trimmedStr = str.slice(1, -1);

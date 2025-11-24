@@ -4,7 +4,7 @@ import { useState } from "react";
 import Task from "@/components/task";
 import Button from "@/components/button";
 import clsx from "clsx";
-import { useMessages } from "@/services/notfication/message-provider";
+import { useMessages } from "@/services/notification/message-provider";
 import { useRouter } from "next/navigation";
 import { AchievementId } from "@/util/achievement-data";
 import { CheckCircle, Info } from "@phosphor-icons/react";

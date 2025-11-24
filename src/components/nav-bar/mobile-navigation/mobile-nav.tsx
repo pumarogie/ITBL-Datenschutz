@@ -3,7 +3,7 @@
 import Image from "next/image";
 import React, { useState } from "react";
 import { Overlay } from "./mobile-overlay";
-import { Section } from "../Section";
+import { Section } from "../section";
 
 export function MobileNav({
   masterQuizUnlocked,

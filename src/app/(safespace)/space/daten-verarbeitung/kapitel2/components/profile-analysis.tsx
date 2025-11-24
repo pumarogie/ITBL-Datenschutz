@@ -7,7 +7,7 @@ import Robot from "@/components/robot/robot";
 import clsx from "clsx";
 import { HintCard } from "@/components/hint-card";
 import { distance } from "fastest-levenshtein";
-import { useMessages } from "@/services/notfication/message-provider";
+import { useMessages } from "@/services/notification/message-provider";
 import Link from "next/link";
 
 type ProfileAnalysisProps = {

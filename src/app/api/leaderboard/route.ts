@@ -1,23 +1,32 @@
-import { NextRequest, NextResponse } from "next/server";
+import { NextRequest } from "next/server";
+import * as z from "zod";
 import { db } from "@/server/database/connection";
 import { achievements, users } from "@/server/database/schema";
 import { and, eq, sql } from "drizzle-orm";
+import { createSuccessResponse } from "@/lib/api/response";
+import { handleApiError, createErrorResponse } from "@/lib/api/error-handler";
+import { HttpStatus } from "@/lib/constants/http";
+
+const requestSchema = z.object({
+  gameCode: z.string(),
+});
+
+type LeaderboardRequest = z.infer<typeof requestSchema>;
 
 type UserData = {
   username: string;
   score: number;
 };
 
-export async function POST(req: NextRequest) {
-  try {
-    const { gameCode } = await req.json();
+type LeaderboardEntry = {
+  name: string;
+  score: number;
+};
 
-    if (gameCode === undefined) {
-      return new NextResponse("Error", {
-        status: 404,
-        statusText: "gameCode is required. Your game code was undefined",
-      });
-    }
+export const POST = async (req: NextRequest) => {
+  try {
+    const requestData: unknown = await req.json();
+    const { gameCode } = requestSchema.parse(requestData) as LeaderboardRequest;
 
     const userData = await db
       .select({
@@ -38,27 +47,24 @@ export async function POST(req: NextRequest) {
       .orderBy(sql`score DESC`);
 
     if (!userData || userData.length === 0) {
-      console.error("No user data found for gameCode", gameCode);
-      return new NextResponse("Error", {
-        status: 404,
-        statusText: "No user data found",
-      });
+      return createErrorResponse("No user data found", HttpStatus.NOT_FOUND);
     }
 
-    const leaderboardData = userData.map((user: UserData) => ({
-      name: user.username,
-      score: user.score,
-    }));
+    const leaderboardData: LeaderboardEntry[] = userData.map(
+      (user: UserData) => ({
+        name: user.username,
+        score: user.score,
+      }),
+    );
 
-    return new NextResponse(JSON.stringify(leaderboardData), {
-      status: 200,
-      statusText: "leaderboard user data arrived",
-    });
-  } catch (error) {
-    console.error("Error processing POST request", error);
-    return new NextResponse("Error", {
-      status: 500,
-      statusText: "Internal Server Error",
-    });
+    return createSuccessResponse<LeaderboardEntry[]>(leaderboardData);
+  } catch (error: unknown) {
+    if (error instanceof z.ZodError) {
+      return createErrorResponse(
+        "Invalid request data",
+        HttpStatus.BAD_REQUEST,
+      );
+    }
+    return handleApiError(error, "Failed to get leaderboard data");
   }
-}
+};

@@ -1,5 +1,5 @@
 "use client";
-import { customDecorateOptions } from "@/components/Quiz/helper";
+import { customDecorateOptions } from "@/components/quiz/helper";
 import { useMessages } from "./message-provider";
 import Notification from "@/components/notification";
 import { ReactNode, useEffect, useState } from "react";

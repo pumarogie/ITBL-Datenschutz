@@ -3,10 +3,10 @@ import { useEffect, useState } from "react";
 import clsx from "clsx";
 import Button from "@/components/button";
 import { Achievement, AchievementData } from "@/util/achievement-data";
-import AchievementCard from "@/components/Achievements/achievement-card";
+import AchievementCard from "@/components/achievements/achievement-card";
 import { PersistUserService } from "@/services/user/PersistUserService";
 import Explosion from "react-canvas-confetti/dist/presets/explosion";
-import Quiz, { QuizParams } from "@/components/Quiz/quiz";
+import Quiz, { QuizParams } from "@/components/quiz/quiz";
 import {
   customDecorateOptions,
   getAchievedScore,
@@ -14,7 +14,7 @@ import {
   QuizListProps,
   quizStateClasses,
   QuizzesStateProps,
-} from "@/components/Quiz/helper";
+} from "@/components/quiz/helper";
 import { getUserService } from "@/services/user/UserService";
 
 export default function QuizList({
@@ -48,12 +48,12 @@ export default function QuizList({
     }
 
     if (achievement !== undefined && currentQuizIndex === quizzes.length - 1) {
-      unlockAchievement(achievement).then((res) => console.log(res));
+      unlockAchievement(achievement);
     }
   }, [achievement, achievedScore]);
 
   function nextQuiz() {
-    if (currentQuizIndex == quizzes.length - 1) return;
+    if (currentQuizIndex === quizzes.length - 1) return;
     setCurrentQuizIndex(currentQuizIndex + 1);
     onNextQuestion?.();
   }

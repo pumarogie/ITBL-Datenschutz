@@ -1,7 +1,7 @@
 "use client";
 import Link from "next/link";
 import Image from "next/image";
-import { Section } from "../Section";
+import { Section } from "../section";
 import { LockKey, SignOut, Star } from "@phosphor-icons/react";
 import { useRouter } from "next/navigation";
 import clsx from "clsx";

@@ -1,6 +1,6 @@
 import Button from "@/components/button";
 import Checkbox from "@/components/checkbox";
-import { useMessages } from "@/services/notfication/message-provider";
+import { useMessages } from "@/services/notification/message-provider";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { SetStateAction, useState } from "react";

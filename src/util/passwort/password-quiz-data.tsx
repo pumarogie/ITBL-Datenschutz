@@ -1,5 +1,5 @@
 import React from "react";
-import { QuizParams } from "@/components/Quiz/quiz";
+import { QuizParams } from "@/components/quiz/quiz";
 import { State } from "@/app/(safespace)/space/daten-verarbeitung/kapitel2/components/recommendation-quiz";
 import { generatePassword } from "./strength-helper";
 

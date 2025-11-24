@@ -7,7 +7,7 @@ import { useRouter } from "next/navigation";
 import { PrivacyQuizQuestion } from "@/app/(safespace)/space/privatsphaere/swipe/page";
 import Robot from "@/components/robot/robot";
 import { AchievementId } from "@/util/achievement-data";
-import { useMessages } from "@/services/notfication/message-provider";
+import { useMessages } from "@/services/notification/message-provider";
 import { getUserService } from "@/services/user/UserService";
 
 export function PrivacyQuiz({
@@ -32,7 +32,7 @@ export function PrivacyQuiz({
   const handleNextQuestion = () => {
     setAnswer(null);
     setCurrentQuestionIndex((prevIndex) => {
-      if (prevIndex + 1 == questions.length) {
+      if (prevIndex + 1 === questions.length) {
         const userService = getUserService();
         userService
           .setAchievement(AchievementId.PRIVATSPHAERE_FINISHED, true)
@@ -137,7 +137,7 @@ function QuizResult({
       </h2>
       <span className="flex flex-col w-full max-w-md lg:my-5 scale-95 lg:scale-100 p-2">
         <span className="text-blue-background font-bold pb-2">
-          {userAnswer == currentQuestion.isPersonenbezogen
+          {userAnswer === currentQuestion.isPersonenbezogen
             ? "Richtig! "
             : "Leider Falsch. "}
         </span>

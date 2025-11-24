@@ -12,7 +12,7 @@ import clsx from "clsx";
 import { HintCard } from "@/components/hint-card";
 import Robot from "@/components/robot/robot";
 import { AchievementId } from "@/util/achievement-data";
-import { useMessages } from "@/services/notfication/message-provider";
+import { useMessages } from "@/services/notification/message-provider";
 import { Question } from "@phosphor-icons/react";
 import Task from "@/components/task";
 import { getUserService } from "@/services/user/UserService";

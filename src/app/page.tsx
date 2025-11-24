@@ -2,8 +2,8 @@
 
 import Button from "@/components/button";
 import { redirect, useRouter } from "next/navigation";
-import { SinglePlayer } from "@/components/LandingPage/single-player";
-import { Multiplayer } from "@/components/LandingPage/multi-player";
+import { SinglePlayer } from "@/components/landing-page/single-player";
+import { Multiplayer } from "@/components/landing-page/multi-player";
 import { useEffect, useState } from "react";
 import {
   adjectives,

@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { SectionName } from "../Section";
+import { SectionName } from "../section";
 import Image from "next/image";
 import clsx from "clsx";
 

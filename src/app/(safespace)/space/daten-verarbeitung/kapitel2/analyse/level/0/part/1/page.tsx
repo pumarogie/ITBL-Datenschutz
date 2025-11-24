@@ -16,7 +16,7 @@ import {
 } from "@phosphor-icons/react";
 import clsx from "clsx";
 import Button from "@/components/button";
-import { useMessages } from "@/services/notfication/message-provider";
+import { useMessages } from "@/services/notification/message-provider";
 import Link from "next/link";
 import TagList from "@/app/(safespace)/space/daten-verarbeitung/kapitel2/analyse/components/tag-list";
 

@@ -1,5 +1,5 @@
 "use client";
-import AchievementCard from "@/components/Achievements/achievement-card";
+import AchievementCard from "@/components/achievements/achievement-card";
 import {
   Achievement,
   AchievementData,

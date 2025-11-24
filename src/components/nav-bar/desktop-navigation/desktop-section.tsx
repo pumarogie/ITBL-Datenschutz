@@ -1,6 +1,6 @@
 import clsx from "clsx";
-import { Props } from "../Section";
-import { DesktopSectionItem } from "@/components/NavBar/DesktopNavigation/desktop-section-item";
+import { Props } from "../section";
+import { DesktopSectionItem } from "@/components/nav-bar/desktop-navigation/desktop-section-item";
 import React from "react";
 
 export function DesktopSection({
@@ -15,7 +15,7 @@ export function DesktopSection({
         ({ sectionName, srcActive, srcInactive, alt, href }, index) => (
           <div
             key={index}
-            className={clsx("relative", activeSection == sectionName && "z-10")}
+            className={clsx("relative", activeSection === sectionName && "z-10")}
           >
             <DesktopSectionItem
               setSection={setSection}
@@ -35,17 +35,17 @@ export function DesktopSection({
                   sectionItems[index - 1].sectionName === activeSection &&
                   "rounded-tr-3xl",
                 index < 3 &&
-                  sectionItems.length == 4 &&
+                  sectionItems.length === 4 &&
                   sectionItems[index + 1].sectionName === activeSection &&
                   "rounded-br-3xl",
                 index < 2 &&
-                  sectionItems.length == 3 &&
+                  sectionItems.length === 3 &&
                   sectionItems[index + 1].sectionName === activeSection &&
                   "rounded-br-3xl",
               )}
             />
 
-            {activeSection == sectionName && (
+            {activeSection === sectionName && (
               <React.Fragment>
                 <div className="bg-white absolute bottom-[100%] w-10 right-0 z-10">
                   <div

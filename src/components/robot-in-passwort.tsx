@@ -6,7 +6,7 @@ import clsx from "clsx";
 import { CSSProperties, useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { AchievementId } from "@/util/achievement-data";
-import { useMessages } from "@/services/notfication/message-provider";
+import { useMessages } from "@/services/notification/message-provider";
 import { getUserService } from "@/services/user/UserService";
 
 type RobotIntroductionProps = {
@@ -78,7 +78,7 @@ export default function RobotInPasswort({
           <div className="flex justify-center mt-24">
             <Button
               className={clsx(
-                state == states.length - 1 && "opacity-0 pointer-events-none",
+                state === states.length - 1 && "opacity-0 pointer-events-none",
                 "transition-all",
               )}
               onClick={onClick}

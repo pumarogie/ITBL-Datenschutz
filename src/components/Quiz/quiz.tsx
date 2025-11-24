@@ -17,41 +17,42 @@ export type QuizParams = {
   showCorrectAnswer?: boolean;
 };
 
-export default function Quiz(quiz: QuizParams) {
+export const Quiz = (quiz: QuizParams) => {
   const [selection, setSelection] = useState<number | undefined>(undefined);
 
-  function onClick(index: number) {
+  const onClick = (index: number) => {
     if (quiz.onAnswerClick) {
       quiz.onAnswerClick();
     }
-    if (quiz.showCorrectAnswer && selection != undefined) return;
+    if (quiz.showCorrectAnswer && selection !== undefined) return;
     setSelection(index);
     const isDone = quiz.showCorrectAnswer
-      ? index != undefined
-      : index == quiz.correctAnswer;
+      ? index !== undefined
+      : index === quiz.correctAnswer;
     quiz.onSelect?.(index, isDone);
-  }
+  };
 
-  function buttonStyle(index: number): ButtonStyle {
+  const buttonStyle = (index: number): ButtonStyle => {
     if (
       quiz.showCorrectAnswer &&
-      selection != undefined &&
-      index == quiz.correctAnswer
+      selection !== undefined &&
+      index === quiz.correctAnswer
     ) {
       return "green";
     } else {
-      return selection == index
-        ? index == quiz.correctAnswer
+      return selection === index
+        ? index === quiz.correctAnswer
           ? "green"
           : "red"
         : "default";
     }
-  }
-  function showCursorClass() {
-    return quiz.showCorrectAnswer && selection != undefined
+  };
+
+  const showCursorClass = () => {
+    return quiz.showCorrectAnswer && selection !== undefined
       ? "cursor-auto"
       : null;
-  }
+  };
 
   return (
     <div className={quiz.className}>
@@ -72,9 +73,9 @@ export default function Quiz(quiz: QuizParams) {
         ))}
       </div>
 
-      {selection != undefined && (
+      {selection !== undefined && (
         <div className="px-6 py-2 border border-orange-400 bg-orange-100 text-orange-800 rounded-xl my-4">
-          {selection == quiz.correctAnswer ? (
+          {selection === quiz.correctAnswer ? (
             <>
               <h4 className="font-semibold md:text-md text-sm">
                 Richtige Antwort!
@@ -108,4 +109,6 @@ export default function Quiz(quiz: QuizParams) {
       )}
     </div>
   );
-}
+};
+
+export default Quiz;

@@ -4,7 +4,7 @@ import { ActionCard } from "@/components/action-card";
 import { HintCard } from "@/components/hint-card";
 import Button from "@/components/button";
 import { InputValidation } from "@/components/input-validation";
-import { useMessages } from "@/services/notfication/message-provider";
+import { useMessages } from "@/services/notification/message-provider";
 import { useEffect, useState } from "react";
 import { calculateBruteForceTime } from "@/util/passwort/passwort-validation";
 import { AchievementId } from "@/util/achievement-data";

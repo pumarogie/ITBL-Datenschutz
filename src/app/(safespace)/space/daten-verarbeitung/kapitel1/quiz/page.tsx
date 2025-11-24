@@ -1,8 +1,8 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import QuizList from "@/components/Quiz/quiz-list";
-import { QuizParams } from "@/components/Quiz/quiz";
+import QuizList from "@/components/quiz/quiz-list";
+import { QuizParams } from "@/components/quiz/quiz";
 import { PersistUserService } from "@/services/user/PersistUserService";
 import { AchievementId } from "@/util/achievement-data";
 import { getUserService } from "@/services/user/UserService";
