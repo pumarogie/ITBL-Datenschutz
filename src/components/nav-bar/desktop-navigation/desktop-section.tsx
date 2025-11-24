@@ -15,7 +15,10 @@ export function DesktopSection({
         ({ sectionName, srcActive, srcInactive, alt, href }, index) => (
           <div
             key={index}
-            className={clsx("relative", activeSection === sectionName && "z-10")}
+            className={clsx(
+              "relative",
+              activeSection === sectionName && "z-10",
+            )}
           >
             <DesktopSectionItem
               setSection={setSection}
