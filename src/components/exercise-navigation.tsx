@@ -83,7 +83,7 @@ export function ExerciseNavigation() {
 
         if (
           !achievements.find(
-            (a) => a.achievementEnum == AchievementId.INTRO_FINISHED,
+            (a) => a.achievementEnum === AchievementId.INTRO_FINISHED,
           )
         ) {
           setModulesUnlocked(false);

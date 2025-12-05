@@ -2,8 +2,8 @@
 import { HintCard } from "@/components/hint-card";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
-import QuizList from "@/components/Quiz/quiz-list";
-import { QuizParams } from "@/components/Quiz/quiz";
+import QuizList from "@/components/quiz/quiz-list";
+import { QuizParams } from "@/components/quiz/quiz";
 import { AchievementId } from "@/util/achievement-data";
 
 export default function StartGame() {

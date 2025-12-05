@@ -1,11 +1,11 @@
 "use client";
 
-import { DesktopNav } from "@/components/NavBar/DesktopNavigation/desktop-nav";
-import { MobileNav } from "@/components/NavBar/MobileNavigation/mobile-nav";
+import { DesktopNav } from "@/components/nav-bar/desktop-navigation/desktop-nav";
+import { MobileNav } from "@/components/nav-bar/mobile-navigation/mobile-nav";
 import { usePathname, useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
 import clsx from "clsx";
-import { useMessages } from "@/services/notfication/message-provider";
+import { useMessages } from "@/services/notification/message-provider";
 import { AchievementId } from "@/util/achievement-data";
 import { getUserService } from "@/services/user/UserService";
 

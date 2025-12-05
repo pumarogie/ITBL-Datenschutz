@@ -1,167 +1,141 @@
 import { HighScoreType } from "@/server/database/schema";
 import { UserDataAchievement, UserService } from "@/services/user/UserService";
+import { ApiEndpoints } from "@/lib/constants/endpoints";
+import { apiFetch } from "@/lib/utils/fetch";
+import {
+  getLocalStorageItem,
+  setLocalStorageItem,
+  removeLocalStorageItem,
+  isLocalStorageAvailable,
+} from "@/lib/utils/storage";
+
+type UserResponse = {
+  userData: Array<{
+    id: string;
+    gameCode: string;
+  }>;
+};
+
+type GetUserResponse = {
+  id: number;
+  userName: string;
+  gameCode: string | null;
+};
+
+type HighScoreResponse = {
+  highScore: number;
+};
 
 export class PersistUserService implements UserService {
-  public userId: string | null =
-    typeof window !== "undefined" && window.localStorage
-      ? localStorage.getItem("userId")
-      : null;
+  public userId: string | null = getLocalStorageItem("userId");
 
   constructor() {}
 
-  async getUser() {
+  async getUser(): Promise<GetUserResponse> {
     if (this.userId === null) {
       return Promise.reject("User not found.");
     }
-    const response = await fetch("/api/get-user", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ userId: this.userId }),
-    });
 
-    if (!response.ok) {
-      throw new Error("Failed to fetch user data");
-    }
-    return await response.json();
-  }
-
-  async isLoggedIn() {
-    return Promise.resolve(
-      typeof window !== "undefined" &&
-        window.localStorage &&
-        localStorage.getItem("userId") != null,
+    return apiFetch<GetUserResponse>(
+      `${ApiEndpoints.USERS}?userId=${this.userId}`,
+      { method: "GET" },
     );
   }
 
-  async deleteUser() {
-    if (typeof window !== "undefined" && window.localStorage) {
-      localStorage.removeItem("gameCode");
-      localStorage.removeItem("userId");
+  async isLoggedIn(): Promise<boolean> {
+    return Promise.resolve(
+      isLocalStorageAvailable() && getLocalStorageItem("userId") !== null,
+    );
+  }
+
+  async deleteUser(): Promise<void> {
+    if (isLocalStorageAvailable()) {
+      removeLocalStorageItem("gameCode");
+      removeLocalStorageItem("userId");
     }
   }
 
-  async createPlayer(username: string, mode: string, gameCode: string) {
+  async createPlayer(
+    username: string,
+    mode: string,
+    gameCode: string,
+  ): Promise<void> {
     try {
-      const response = await fetch("/api/create-user", {
+      const result = await apiFetch<UserResponse>(ApiEndpoints.USERS, {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ username, mode, gameCode }),
+        body: { username, mode, gameCode },
       });
 
-      if (!response.ok) {
-        throw new Error("Failed to create user");
-      }
-      const result = await response.json();
+      if (isLocalStorageAvailable()) {
+        setLocalStorageItem("userId", result.userData[0].id);
 
-      if (typeof window !== "undefined" && window.localStorage) {
-        localStorage.setItem("userId", result.userData[0].id);
+        if (gameCode !== "") {
+          setLocalStorageItem("gameCode", result.userData[0].gameCode);
+        }
       }
-
-      if (
-        gameCode !== "" &&
-        typeof window !== "undefined" &&
-        window.localStorage
-      ) {
-        localStorage.setItem("gameCode", result.userData[0].gameCode);
-      }
-    } catch (error) {
-      console.error(error);
+    } catch (error: unknown) {
       throw new Error("Failed to create user");
     }
   }
 
-  async setAchievement(achievement: string, unlocked: boolean) {
+  async setAchievement(
+    achievement: string,
+    unlocked: boolean,
+  ): Promise<boolean> {
     try {
-      const response = await fetch("/api/set-achievement", {
+      await apiFetch(ApiEndpoints.ACHIEVEMENTS, {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
+        body: {
           userId: this.userId,
           achievementEnum: achievement,
           unlocked: unlocked,
-        }),
+        },
       });
-      if (!response.ok) {
-        throw new Error("Failed to set achievement");
-      }
       return true;
     } catch (error: unknown) {
-      console.error(error);
       return false;
     }
   }
 
-  async setHighScore(highScoreEnum: HighScoreType, highScore: number) {
+  async setHighScore(
+    highScoreEnum: HighScoreType,
+    highScore: number,
+  ): Promise<boolean> {
     try {
-      const response = await fetch("/api/set-highScore", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
+      await apiFetch(ApiEndpoints.HIGHSCORES, {
+        method: "PUT",
+        body: {
           userId: this.userId,
           highScore: highScore,
           highScoreEnum: highScoreEnum,
-        }),
+        },
       });
-      if (!response.ok) {
-        throw new Error("Failed to set highscore");
-      }
-
-      if (!response.ok) {
-        throw new Error("Failed to set highscore");
-      }
       return true;
     } catch (error: unknown) {
-      console.error(error);
       return false;
     }
   }
 
-  async getHighScore(highScoreEnum: HighScoreType): Promise<any> {
+  async getHighScore(highScoreEnum: HighScoreType): Promise<number | false> {
     try {
-      const response = await fetch("/api/get-highScores", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          userId: this.userId,
-          highScoreEnum: highScoreEnum,
-        }),
-      });
-      if (!response.ok) {
-        throw new Error("Failed to get highscores");
-      }
-      return await response.json();
+      const result = await apiFetch<HighScoreResponse>(
+        `${ApiEndpoints.HIGHSCORES}?userId=${this.userId}&highScoreEnum=${highScoreEnum}`,
+        { method: "GET" },
+      );
+      return result.highScore;
     } catch (error: unknown) {
-      console.error(error);
       return false;
     }
   }
 
   async getAchievement(): Promise<UserDataAchievement[]> {
     try {
-      const response = await fetch("/api/get-achievement", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ userId: this.userId }),
-      });
-      if (!response.ok) {
-        throw new Error("Failed to get achievement");
-      }
-      const data = await response.json();
+      const data = await apiFetch<UserDataAchievement | UserDataAchievement[]>(
+        `${ApiEndpoints.ACHIEVEMENTS}?userId=${this.userId}`,
+        { method: "GET" },
+      );
       return Array.isArray(data) ? data : [data];
     } catch (error: unknown) {
-      console.error(error);
       return [];
     }
   }

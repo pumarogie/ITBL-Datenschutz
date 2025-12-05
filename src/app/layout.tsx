@@ -1,8 +1,8 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
-import { MessageProvider } from "@/services/notfication/message-provider";
-import NotificationsProvider from "@/services/notfication/notifications-provider";
+import { MessageProvider } from "@/services/notification/message-provider";
+import NotificationsProvider from "@/services/notification/notifications-provider";
 import React from "react";
 
 const inter = Inter({ subsets: ["latin"] });

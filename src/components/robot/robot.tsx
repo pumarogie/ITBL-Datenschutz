@@ -52,12 +52,12 @@ export default function Robot({
     fill400,
     fill500 = "#ffff";
 
-  if (type == "evil") {
+  if (type === "evil") {
     fill300 = "#ff6659";
     fill300Darker = "#d24437";
     fill400 = "#b63c32";
     fill500 = "#9c352a";
-  } else if (type == "disguised") {
+  } else if (type === "disguised") {
     fill300 = "#6cffc8";
     fill300Darker = "#47d8a2";
     fill400 = "#54cc9d";

@@ -7,7 +7,7 @@ import clsx from "clsx";
 import AnimatedText from "@/components/animated/animated-text";
 import { useRouter } from "next/navigation";
 import { AchievementId } from "@/util/achievement-data";
-import { useMessages } from "@/services/notfication/message-provider";
+import { useMessages } from "@/services/notification/message-provider";
 import { getUserService } from "@/services/user/UserService";
 
 export type State = {

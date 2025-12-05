@@ -3,7 +3,7 @@ import Button from "./button";
 import React, { useState } from "react";
 import clsx from "clsx";
 
-type ActionCardProps = {
+type HintCardProps = {
   text: string;
   buttonText: string;
   iconSrc?: string;
@@ -17,7 +17,7 @@ export function HintCard({
   iconSrc,
   hint,
   className,
-}: ActionCardProps) {
+}: HintCardProps) {
   const [showHint, setShowHint] = useState(false);
   return (
     <div

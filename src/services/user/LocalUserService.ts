@@ -21,15 +21,15 @@ export class LocalUserService implements UserService {
 
   async getAchievement(): Promise<UserDataAchievement[]> {
     this.load();
-    if (this.data == null) {
+    if (this.data === null) {
       throw new Error("Failed to fetch user data");
     }
     return Promise.resolve([...this.data.achievements]);
   }
 
-  async getHighScore(highScoreEnum: HighScoreType): Promise<any> {
+  async getHighScore(highScoreEnum: HighScoreType): Promise<number | false> {
     this.load();
-    if (this.data == null) {
+    if (this.data === null) {
       throw new Error("Failed to fetch user data");
     }
     if (!(highScoreEnum in this.data.highscores)) {
@@ -40,15 +40,15 @@ export class LocalUserService implements UserService {
 
   async getUser(): Promise<User> {
     this.load();
-    if (this.data == null) {
+    if (this.data === null) {
       throw new Error("Failed to fetch user data");
     }
     return Promise.resolve({ userName: this.data.userName });
   }
 
-  async isLoggedIn() {
+  async isLoggedIn(): Promise<boolean> {
     this.load();
-    return Promise.resolve(this.data != null);
+    return Promise.resolve(this.data !== null);
   }
 
   async deleteUser() {
@@ -61,11 +61,11 @@ export class LocalUserService implements UserService {
     unlocked: boolean,
   ): Promise<boolean> {
     this.load();
-    if (this.data == null) {
+    if (this.data === null) {
       throw new Error("Failed to fetch user data");
     }
     const existingAchievement = this.data.achievements.findIndex(
-      (a) => a.achievementEnum == achievement,
+      (a) => a.achievementEnum === achievement,
     );
     if (existingAchievement < 0) {
       this.data.achievements.push({
@@ -85,7 +85,7 @@ export class LocalUserService implements UserService {
     highScore: number,
   ): Promise<boolean> {
     this.load();
-    if (this.data == null && this.load() == null) {
+    if (this.data === null && this.load() === null) {
       throw new Error("Failed to fetch user data");
     }
     this.data!!.highscores[highScoreEnum] = highScore;
@@ -102,17 +102,17 @@ export class LocalUserService implements UserService {
 
   load(): UserData | null {
     const data = window.localStorage.getItem(KEY_USER_DATA);
-    if (data == null) {
+    if (data === null) {
       return null;
     }
     try {
       const parsed = JSON.parse(fromBase64(data));
-      if (parsed == null) {
+      if (parsed === null) {
         return null;
       }
       this.data = parsed;
       return this.data;
-    } catch (e: any) {
+    } catch (e: unknown) {
       return null;
     }
   }

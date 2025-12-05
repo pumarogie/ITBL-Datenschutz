@@ -2,20 +2,20 @@ import React, { useEffect, useRef } from "react";
 import clsx from "clsx";
 import Image from "next/image";
 
-interface Timestamp {
+type Timestamp = {
   label: string;
   time: number;
   durationInMinutes: number;
   iconSrc?: string;
-}
+};
 
-interface VideoPlayerProps {
+type VideoPlayerProps = {
   src: string;
   timestamps: Timestamp[];
   className?: string;
   height: number;
   width: number;
-}
+};
 
 export function VideoPlayer({
   src,

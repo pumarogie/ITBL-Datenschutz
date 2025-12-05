@@ -75,7 +75,7 @@ export default function RobotIntroduction({
   function next() {
     if (state < states.length - 1) {
       setState(state + 1);
-      if (state + 2 == states.length) {
+      if (state + 2 === states.length) {
         onClose();
       }
     }

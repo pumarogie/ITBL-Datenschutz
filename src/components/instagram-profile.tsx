@@ -1,4 +1,4 @@
-"use state";
+"use client";
 
 import Image from "next/image";
 import clsx from "clsx";
@@ -115,7 +115,7 @@ export default function InstagramProfile({
           <p className="whitespace-pre-wrap text-sm">{profile.description}</p>
         </header>
 
-        {profile.posts.length == 0 ? (
+        {profile.posts.length === 0 ? (
           <div className="flex flex-col items-center mt-4">
             <Image
               src="/no-posts.png"

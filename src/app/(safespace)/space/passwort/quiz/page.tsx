@@ -8,7 +8,7 @@ import {
   replaceCharacter,
   topTenPasswords,
 } from "@/util/passwort/password-quiz-data";
-import QuizList from "@/components/Quiz/quiz-list";
+import QuizList from "@/components/quiz/quiz-list";
 import { AchievementId } from "@/util/achievement-data";
 
 const hintCards = [

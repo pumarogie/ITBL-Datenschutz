@@ -14,19 +14,19 @@ export type User = {
 
 export type ServiceMode = "singlePlayer" | "multiPlayer";
 
-export function getUserService(): UserService {
-  if (window.localStorage.getItem("serviceMode") == "multiPlayer") {
+export const getUserService = (): UserService => {
+  if (window.localStorage.getItem("serviceMode") === "multiPlayer") {
     return new PersistUserService();
   } else {
     return new LocalUserService();
   }
-}
+};
 
 export function setUserServiceMode(mode: ServiceMode) {
   window.localStorage.setItem("serviceMode", mode);
 }
 
-export interface UserService {
+export type UserService = {
   createPlayer(username: string, mode: string, gameCode: string): Promise<void>;
 
   getUser(): Promise<User>;
@@ -42,7 +42,7 @@ export interface UserService {
     highScore: number,
   ): Promise<boolean>;
 
-  getHighScore(highScoreEnum: HighScoreType): Promise<any>;
+  getHighScore(highScoreEnum: HighScoreType): Promise<number | false>;
 
   getAchievement(): Promise<UserDataAchievement[]>;
-}
+};

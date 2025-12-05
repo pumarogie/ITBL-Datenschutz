@@ -8,7 +8,7 @@ import getFeedback, {
 } from "@/app/(safespace)/space/rechte/input/action";
 import { questions } from "@/util/rights/rights-data";
 import { Score } from "@/app/(safespace)/space/rechte/input/score";
-import { useMessages } from "@/services/notfication/message-provider";
+import { useMessages } from "@/services/notification/message-provider";
 import { useRouter } from "next/navigation";
 
 export default function RightsInputValidation() {

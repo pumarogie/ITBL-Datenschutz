@@ -4,7 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import Button from "@/components/button";
 import Image from "next/image";
-import { useMessages } from "@/services/notfication/message-provider";
+import { useMessages } from "@/services/notification/message-provider";
 import clsx from "clsx";
 import {
   passwordData,
@@ -41,7 +41,7 @@ export default function PasswordStrength() {
     const context = getUserService();
     const fetchHighScore = async () => {
       const loadedHighScore = await context.getHighScore("PASSWORD_STRENGTH");
-      setHighscore(loadedHighScore);
+      setHighscore(typeof loadedHighScore === "number" ? loadedHighScore : 0);
     };
 
     const setAchievement = async () => {
